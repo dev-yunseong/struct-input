@@ -28,10 +28,10 @@ pub async fn read_string_option(name: &str, format_checker: Format) -> Option<St
     }
 }
 
-pub async fn read_string(name: &str, format_checker: Format) -> String {
+pub async fn read_string(prompt: &str, format_checker: Format, default: Option<String>) -> String {
     let mut reader = BufReader::new(io::stdin());
     loop {
-        println!("--- type {name} ---");
+        println!("{prompt}");
         let mut value = String::new();
         match reader.read_line(&mut value).await {
             Ok(_) => (),
@@ -39,6 +39,10 @@ pub async fn read_string(name: &str, format_checker: Format) -> String {
         }
 
         let value = value.trim();
+
+        if value.is_empty() && let Some(default) = default {
+            return default;
+        }
 
         if format_checker.valid(value) {
             return value.to_string();

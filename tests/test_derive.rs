@@ -7,7 +7,13 @@ struct TestStruct {
     name: String,
 
     #[struct_input(format="BaseUrl")]
-    email: String
+    url: String,
+
+    #[struct_input]
+    option: Option<String>,
+
+    #[struct_input(default="default-value")]
+    default: String,
 }
 
 #[tokio::test]

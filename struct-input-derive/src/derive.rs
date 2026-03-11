@@ -1,4 +1,5 @@
 mod attr;
+mod util;
 
 use proc_macro::TokenStream;
 use darling::{FromDeriveInput, FromField, FromMeta};
@@ -18,14 +19,7 @@ pub fn impl_struct_input(ast: &DeriveInput) -> TokenStream {
         .collect::<Vec<_>>();
 
     let field_assignments = fields_args.iter().map(|f| {
-        let name = &f.ident;
-        let format = &f.format;
-        let format = syn::Ident::from_string(format.as_ref().unwrap()).unwrap();
-        let prompt = name.as_ref().unwrap().to_string();
-
-        quote! {
-            #name: ::struct_input::read_string(#prompt, ::struct_input::Format::#format).await
-        }
+        util::field_to_quote(f)
     });
 
     let result = quote! {
