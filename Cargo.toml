@@ -1,6 +1,6 @@
 [package]
 name = "struct-input"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 authors = ["Yunseong Jeong <me@yunseong.dev>"]
 description = "A Rust crate for mapping interactive CLI user input directly to structs with declarative validation and async support."

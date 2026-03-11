@@ -1,4 +1,3 @@
-use std::any::Any;
 use darling::FromMeta;
 use proc_macro2::{Ident, TokenStream};
 use quote::quote;

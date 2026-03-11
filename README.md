@@ -16,8 +16,7 @@ Add `struct-input` and `struct-input-derive` to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-struct-input = "0.1.0"
-struct-input-derive = "0.1.0"
+struct-input = "0.1.2"
 ```
 
 Then, derive the `StructInput` trait for your struct:
