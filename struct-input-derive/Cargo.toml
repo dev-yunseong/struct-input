@@ -2,6 +2,9 @@
 name = "struct-input-derive"
 version = "0.0.1"
 edition = "2024"
+authors = ["Yunseong Jeong <me@yunseong.dev>"]
+description = "Procedural derive macro for the struct-input crate, enabling automatic mapping of CLI inputs to struct fields."
+license = "MIT"
 
 [lib]
 proc-macro = true

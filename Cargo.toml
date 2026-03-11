@@ -3,7 +3,7 @@ name = "struct-input"
 version = "0.0.1"
 edition = "2024"
 authors = ["Yunseong Jeong <me@yunseong.dev>"]
-description = "A server monitoring and remote control tool via messenger."
+description = "A Rust crate for mapping interactive CLI user input directly to structs with declarative validation and async support."
 license = "MIT"
 
 [dependencies]
