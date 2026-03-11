@@ -3,10 +3,10 @@ pub mod formats;
 use tokio::io::{self, AsyncBufReadExt, BufReader};
 use crate::Format;
 
-pub async fn read_string_option(name: &str, format_checker: Format) -> Option<String> {
+pub async fn read_string_option(prompt: &str, format_checker: Format) -> Option<String> {
     let mut reader = BufReader::new(io::stdin());
     loop {
-        println!("--- type {name} ---");
+        println!("{prompt}");
         println!("(Leave empty and press Enter to set as None)");
         let mut value = String::new();
         match reader.read_line(&mut value).await {
@@ -52,10 +52,10 @@ pub async fn read_string(prompt: &str, format_checker: Format, default: Option<S
     }
 }
 
-pub async fn read_int(name: &str) -> i32 {
+pub async fn read_int(prompt: &str) -> i32 {
     let mut reader = BufReader::new(io::stdin());
     loop {
-        println!("--- type {name} ---");
+        println!("{prompt}");
         let mut value = String::new();
         match reader.read_line(&mut value).await {
             Ok(_) => (),

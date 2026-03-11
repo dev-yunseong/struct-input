@@ -11,25 +11,26 @@ pub fn field_to_quote(field_args: &FieldArgs) -> TokenStream {
     let format = extract_format(&field_args.format);
     let prompt = extract_prompt(&field_args);
 
-    if is_option(&field_args.ty) {
-        quote! {
-            #name: ::struct_input::read_string_option(#prompt, ::struct_input::Format::#format).await
-        }
-    }  else {
-        let default = extract_default(&field_args.default);
-        quote! {
-            #name: ::struct_input::read_string(#prompt, ::struct_input::Format::#format, #default).await
-        }
+    match get_type_name(&field_args.ty).as_deref() {
+        Some("Option") => quote! {#name: ::struct_input::read_string_option(#prompt, ::struct_input::Format::#format).await},
+        Some("String") => {
+            let default = extract_default(&field_args.default);
+            quote! {
+                #name: ::struct_input::read_string(#prompt, ::struct_input::Format::#format, #default).await
+            }
+        },
+        Some("i32") => quote! {#name: ::struct_input::read_int(#prompt).await},
+        _ => panic!(""),
     }
 }
 
-fn is_option(ty: &Type) -> bool {
+fn get_type_name(ty: &Type) -> Option<String> {
     if let Type::Path(type_path) = ty {
         if let Some(segment) = type_path.path.segments.last() {
-            return segment.ident == "Option";
+            return Some(segment.ident.to_string());
         }
     }
-    false
+    None
 }
 
 fn extract_prompt(field_args: &FieldArgs) -> String {

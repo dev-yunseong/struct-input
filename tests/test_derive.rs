@@ -14,6 +14,9 @@ struct TestStruct {
 
     #[struct_input(default="default-value")]
     default: String,
+
+    #[struct_input]
+    num: i32,
 }
 
 #[tokio::test]
