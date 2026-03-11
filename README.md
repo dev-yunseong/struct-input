@@ -12,7 +12,7 @@ A Rust crate for easy CLI input mapping to structs.
 
 ## Usage
 
-Add `struct-input` and `struct-input-derive` to your `Cargo.toml`:
+Add `struct-input` to your `Cargo.toml`:
 
 ```toml
 [dependencies]
@@ -21,28 +21,44 @@ struct-input = "0.1.2"
 
 Then, derive the `StructInput` trait for your struct:
 
+### Example
 ```rust
-use struct_input::StructInput;
+use struct_input::{StructInput, Format};
 
-#[derive(StructInput)]
-struct MyStruct {
-    #[struct_input(prompt = "Enter your name: ")]
-    name: String,
-    #[struct_input(prompt = "Enter your age: ")]
-    age: i32,
-    #[struct_input(prompt = "Enter your favorite color (optional): ")]
-    favorite_color: Option<String>,
+#[derive(StructInput, Debug)]
+struct ServerConfig {
+    // Rejects input if it contains spaces
+    #[struct_input(
+        message = "Service Name: ",
+        format = "NotAllowWhitespace",
+    )]
+    service_name: String,
+
+    // Validates URL format and provides a default value
+    #[struct_input(
+        message = "API Endpoint: ",
+        format = "BaseUrl",
+        default = "https://localhost:8080"
+    )]
+    endpoint: String,
+
+    // Automatically parses string input to i32
+    #[struct_input(
+        message = "Max Retries: "
+    )]
+    retries: i32,
 }
 
-fn main() {
-    let my_struct = MyStruct::from_cli();
-    println!("Hello, {}! You are {} years old.", my_struct.name, my_struct.age);
-    if let Some(color) = my_struct.favorite_color {
-        println!("Your favorite color is {}.", color);
-    }
+async fn main() {
+    let config = ServerConfig::from_input().await;
+    println!("{:#?}", config);
 }
 ```
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Attribute Reference
+| Attribute | Type |Description|
+|-|-|-|
+|message|String|The label displayed to the user when requesting input.|
+|format|String|Validation rule: BaseUrl, Name, NotAllowWhitespace, or None.|
+|default|String|The value used if the user provides empty input (presses Enter).|
+|message|String|An additional hint or error message displayed to the user.|
