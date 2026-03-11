@@ -1,0 +1,17 @@
+[package]
+name = "struct-input"
+version = "0.0.1"
+edition = "2024"
+authors = ["Yunseong Jeong <me@yunseong.dev>"]
+description = "A server monitoring and remote control tool via messenger."
+license = "MIT"
+
+[dependencies]
+struct-input-derive = { version = "0.0.1", path = "./struct-input-derive" }
+
+syn = "2.0"
+quote = "1.0"
+regex = "1.12.3"
+tokio = { version = "1.49.0", features = ["full"] }
+darling = "0.23.0"
+proc-macro2 = "1.0.106"
