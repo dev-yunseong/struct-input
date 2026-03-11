@@ -1,25 +1,12 @@
 use std::sync::OnceLock;
-use darling::FromMeta;
 use regex::Regex;
-use quote::{quote, ToTokens};
 
-#[derive(Debug, Clone, FromMeta)]
+#[derive(Debug, Clone)]
 pub enum Format {
     BaseUrl,
     Name,
     NotAllowWhitespace,
     None,
-}
-
-impl ToTokens for Format {
-    fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
-        let variant_name = format!("{:?}", self);
-        let ident = syn::Ident::new(&variant_name, proc_macro2::Span::call_site());
-
-        tokens.extend(quote! {
-            Format::#ident
-        });
-    }
 }
 
 impl Format {

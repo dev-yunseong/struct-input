@@ -9,7 +9,5 @@ proc-macro = true
 [dependencies]
 syn = "2.0"
 quote = "1.0"
-regex = "1.12.3"
-tokio = { version = "1.49.0", features = ["full"] }
 darling = "0.23.0"
 proc-macro2 = "1.0.106"
